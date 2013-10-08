@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: WP Courseware - Wishlist Member Add On
- * Version: 1.00
+ * Version: 1.0
  * Plugin URI: http://flyplugins.com
  * Description: The official extension for <strong>WP Courseware</strong> to add support for the <strong>Wishlist Member membership plugin</strong> for WordPress.
  * Author: Fly Plugins

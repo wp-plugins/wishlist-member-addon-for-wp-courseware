@@ -1,27 +1,13 @@
 <?php
 /*
  * Plugin Name: WP Courseware - Wishlist Member Add On
- * Version: 1.0
+ * Version: 1.1
  * Plugin URI: http://flyplugins.com
- * Description: The official extension for <strong>WP Courseware</strong> to add support for the <strong>Wishlist Member membership plugin</strong> for WordPress.
+ * Description: The official extension for WP Courseware to add support for the Wishlist Member membership plugin for WordPress.
  * Author: Fly Plugins
  * Author URI: http://flyplugins.com
  */
-/*
- Copyright 2013 Fly Plugins - Evolution Media Services, LLC
 
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
- */
 
 
 // Main parent class
@@ -34,7 +20,7 @@ add_action('init', 'WPCW_Members_WishList_init', 1);
 
 
 /**
- * Initialise the membership plugin, only loaded if WP Courseware 
+ * Initialize the membership plugin, only loaded if WP Courseware 
  * exists and is loading correctly.
  */
 function WPCW_Members_WishList_init()
@@ -75,14 +61,14 @@ class WPCW_Members_WishList extends WPCW_Members
 	 */
 	function __construct()
 	{
-		// Initialise using the parent constructor 
+		// Initialize using the parent constructor 
 		parent::__construct(WPCW_Members_WishList::EXTENSION_NAME, WPCW_Members_WishList::EXTENSION_ID, WPCW_Members_WishList::GLUE_VERSION);
 	}
 	
 	
 	
 	/**
-	 * Get the membership levels for this specific membership plugin. (id => array (of details))
+	 * Get list of membership levels
 	 */
 	protected function getMembershipLevels()
 	{
@@ -125,7 +111,36 @@ class WPCW_Members_WishList extends WPCW_Members
 		add_action('wishlistmember_cancel_user_levels', 	array($this, 'handle_updateUserCourseAccess'), 10, 2);
 		add_action('wishlistmember_uncancel_user_levels', 	array($this, 'handle_updateUserCourseAccess'), 10, 2);
 	}
-	
+
+	/**
+	 * Assign selected courses to members of a paticular level.
+	 * @param Level ID in which members will get courses enrollment adjusted.
+	 */
+	protected function retroactive_assignment($level_ID)
+    {
+    	global $WishListMemberInstance;
+    	$page = new PageBuilder(false);
+
+    	//Get members associated with $level_ID
+		$members = $WishListMemberInstance->MemberIDs($level_ID,null, null);
+
+		if (count($members) > 0){
+			//Enroll members into of level
+			foreach ($members as $member){
+				// Get user levels
+				$userLevels = $WishListMemberInstance->GetMemberActiveLevels($member);
+				// Over to the parent class to handle the sync of data.
+				parent::handle_courseSync($member, $userLevels);
+			}
+
+		$page->showMessage(__('All members were successfully retroactively enrolled into the selected courses.', 'wp_courseware'));
+            
+        return;
+
+		}else {
+            $page->showMessage(__('No existing customers found for the specified product.', 'wp_courseware'));
+        }
+    }
 
 	/**
 	 * Function just for handling the membership callback, to interpret the parameters

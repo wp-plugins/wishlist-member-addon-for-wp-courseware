@@ -8,7 +8,7 @@ Stable tag: 1.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-This plugin adds integration between WishList Member and WP Courseware which allows you to assign course(s) to membership levels for automatic enrollment.
+This plugin adds integration between WishList Member and WP Courseware which allows you to assign course(s) to levels for automatic enrollment.
 
 == Description ==
 [Fly Plugins](http://flyplugins.com) presents [WishList Member](http://flyplugins.com/wishlist-member) for [WP Courseware](http://wpcourseware.com).
@@ -39,7 +39,7 @@ For more info about Fly Plugins Free and Premium Plugins, check out the followin
 * Check out the Fly Plugins [YouTube](http://www.youtube.com/flyplugins) YouTube channel.
 
 = Disclaimer =
-This is not an actual membership plugin. It is only the integration, or “middle-man” between WP Courseware and Paid Memberships Pro.
+This is not an actual membership plugin. It is only the integration, or “middle-man” between WP Courseware and WishList Member.
 
 == Installation ==
 
